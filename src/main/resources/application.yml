@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/beauty?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: root
+  servlet:
+    multipart:
+      enabled: true
+      location: /home/admin/beauty/picture/
+      max-file-size: 5MB
+      max-request-size: 10MB
+  mvc:
+    view:
+      suffix: .html
+
+PicturePath: /home/admin/beauty/picture/
+
+logging:
+  level:
+    com.zhl.beauty.mapper: trace
+  file:
+    name: /home/admin/beauty/beauty.log
+
