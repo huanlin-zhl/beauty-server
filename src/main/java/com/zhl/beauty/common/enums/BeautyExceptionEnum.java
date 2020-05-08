@@ -36,6 +36,11 @@ public enum BeautyExceptionEnum {
     CLOTH_EXIST              (105, "该衣服已经存在，不可重复插入"),
 
     /**
+     * 图片保存失败
+     */
+    IMAGE_TRANSFER_ERROR    (106, "图片保存失败，请稍后重试"),
+
+    /**
      * 服务器异常
      */
     SERVER_ERROR            (200, "服务器异常");

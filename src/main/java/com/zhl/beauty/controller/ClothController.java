@@ -27,17 +27,16 @@ public class ClothController {
     private final ClothService clothService;
 
     @PostMapping("/add")
-    public String uploadCloth(@RequestParam("clothId") String clothId, @RequestParam("clothImage") MultipartFile imageFile) throws IOException {
+    public String uploadCloth(@RequestParam("clothId") String clothId, @RequestParam("clothImage") MultipartFile imageFile) {
         //imageFile.getOriginalFilename() 获取图片文件的原始名称 eg：123.jpg(为防止名称重复，前缀添加毫秒信息)
         //new File(Objects.requireNonNull(imageFile.getOriginalFilename())) 创建一个与图片原始名称一样的文件
         //imageFile.transferTo() 将文件保存至本地，文件目录在application.yum中spring.servlet.multipart.location进行指定
         String pictureOriginalFilename = "" + System.currentTimeMillis() + imageFile.getOriginalFilename();
-        imageFile.transferTo(new File(Objects.requireNonNull(pictureOriginalFilename)));
         //插入衣服新记录
         Cloth cloth = clothService.insertCloth(Cloth.builder()
                 .clothId(clothId)
                 .picture(pictureOriginalFilename)
-                .build());
+                .build(), imageFile);
 
         return GsonUtils.toJsonString(new BeautyResult<>(cloth));
     }

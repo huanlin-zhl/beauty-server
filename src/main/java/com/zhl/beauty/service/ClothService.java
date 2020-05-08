@@ -1,7 +1,9 @@
 package com.zhl.beauty.service;
 
 import com.zhl.beauty.domain.entity.Cloth;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -15,9 +17,10 @@ public interface ClothService {
     /**
      * 插入一条衣服数据
      * @param cloth 衣服实例
+     * @param clothImage 衣服图片信息
      * @return 插入的数据
      */
-    Cloth insertCloth(Cloth cloth);
+    Cloth insertCloth(Cloth cloth, MultipartFile clothImage) ;
 
     /**
      * 删除衣服

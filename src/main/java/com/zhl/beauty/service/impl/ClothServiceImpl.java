@@ -12,9 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 衣服接口实现类
@@ -35,12 +38,17 @@ public class ClothServiceImpl implements ClothService {
     private final ClothScheduledLogMapper clothScheduledLogMapper;
 
     @Override
-    public Cloth insertCloth(Cloth cloth) {
+    public Cloth insertCloth(Cloth cloth, MultipartFile clothImage) {
         insertPreCheck(cloth);
 
         //同步插入
         synchronized ((BASE_LOCK_PREFIX + "insert:" + cloth.getClothId()).intern()){
             if(!isClothExist(cloth.getClothId())){
+                try {
+                    clothImage.transferTo(new File(Objects.requireNonNull(cloth.getPicture())));
+                } catch (IOException e) {
+                    throw new BeautyException(BeautyExceptionEnum.IMAGE_TRANSFER_ERROR);
+                }
                 //设置初始属性
                 cloth.setCreateTime(new Date());
                 //插入实例
