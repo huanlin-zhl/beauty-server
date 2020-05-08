@@ -45,6 +45,8 @@ public class ClothServiceImpl implements ClothService {
         synchronized ((BASE_LOCK_PREFIX + "insert:" + cloth.getClothId()).intern()){
             if(!isClothExist(cloth.getClothId())){
                 try {
+                    //new File(Objects.requireNonNull(imageFile.getOriginalFilename())) 创建一个与图片原始名称一样的文件
+                    //imageFile.transferTo() 将文件保存至本地，文件目录在application.yum中spring.servlet.multipart.location进行指定
                     clothImage.transferTo(new File(Objects.requireNonNull(cloth.getPicture())));
                 } catch (IOException e) {
                     throw new BeautyException(BeautyExceptionEnum.IMAGE_TRANSFER_ERROR);
